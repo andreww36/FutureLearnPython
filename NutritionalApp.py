@@ -3,6 +3,9 @@
 # run methods from the class on that object
 class Patient:
     'This is the base class for all Patients registered'
+    rec_sugar_intake_g = 37.5
+    rec_fat_intake_g = 77
+    rec_salt_intake_mg = 2300
     def __init__(self, name, sugar_intake_g, fat_intake_g, salt_intake_mg):
         self.name = name
         self.sugar_intake_g = sugar_intake_g
@@ -10,13 +13,13 @@ class Patient:
         self.salt_intake_mg = salt_intake_mg
     def health_check(self):
         healthy = True
-        if self.sugar_intake_g > 37.5:
+        if self.sugar_intake_g > float(self.rec_sugar_intake_g):
             print(f"{self.name}'s sugar intake is too high.")
             healthy = False
-        if self.fat_intake_g > 77:
+        if self.fat_intake_g > float(self.rec_fat_intake_g):
             print(f"{self.name}'s fat intake is too high.")
             healthy = False
-        if self.salt_intake_mg > 2300:
+        if self.salt_intake_mg > float(self.rec_salt_intake_mg):
             print(f"{self.name}'s salt intake is too high.")
             healthy = False
         if healthy == True:
