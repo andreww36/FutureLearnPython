@@ -1,5 +1,5 @@
 # GAME BRANCH
-# I'm trying to work on a game branch...
+# I'm trying to work on a game branch and have successfully created the branch.
 # Implement these features:
 # A class, Enemy, that starts with three lives.
 # A method to attack the enemy and reduce its life count by one.
