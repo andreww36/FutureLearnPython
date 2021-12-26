@@ -9,8 +9,10 @@
 # class Enemy
 class Enemy:
     lives = 3
-    def __init__ (self):
+    names = ["Snake eyes", "Shark face", "Bad Bandit", "Demon Dan", "Vicious Vic", "Nasty Nick"]
+    def __init__ (self, name):
         self.lives = lives
+        self.name = name
     def attack(self):
         print("Ouch! That's a hit!")
         self.lives = self.lives - 1
@@ -21,12 +23,18 @@ class Enemy:
             print("This enemy is dead!")
 
 # intro
-print('In this game you will confront three enemies, each with three lives.\nYour task is to eliminate each enemy to win the game.\n')
-for i in range(3):
-    print('Here comes enemy number ' + str(i + 1))
+print('In this game you will confront a random number of enemies, each with three lives.\nYour task is to eliminate each enemy to win the game.\n')
+# generate enemies
+import random
+r = random.randint(3, 7)
+for i in range(r):
+    name = Enemy.names[i]
+    print(f'Here comes enemy {name}')
     lives = Enemy.lives
-    enemy = Enemy()
-    for i in range(3):
-        enemy.attack()
-        enemy.checkLife()
-print("Well done, you have defeated three enemies.  Now take a break and relax!")
+    # name = Enemy()
+    print(f'{name} has {lives} lives')
+
+#     for i in range(3):
+#         enemy.attack()
+#         enemy.checkLife()
+# print("Well done, you have defeated three enemies.  Now take a break and relax!")
