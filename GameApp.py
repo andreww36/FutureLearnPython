@@ -9,7 +9,7 @@ class Enemy:
     lives = 3
     def __init__ (self):
         self.lives = lives
-    def attack_enemy(self):
+    def attack(self):
         print("Ouch! That's a hit!")
         self.lives = self.lives - 1
         print(f'You have {self.lives} lives left')
@@ -25,6 +25,6 @@ for i in range(3):
     lives = Enemy.lives
     enemy = Enemy()
     for i in range(3):
-        enemy.attack_enemy()
+        enemy.attack()
         enemy.checkLife()
 print("Well done, you have defeated three enemies.  Now take a break and relax!")
