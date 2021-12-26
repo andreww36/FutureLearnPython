@@ -1,8 +1,10 @@
+# GAME BRANCH
+# I'm trying to work on a game branch...
 # Implement these features:
 # A class, Enemy, that starts with three lives.
 # A method to attack the enemy and reduce its life count by one.
 # A method to check the enemy’s life count and either report when the enemy loses a life, or report that the enemy is dead.
-# Generate three instances of the enemy in the program and attack the enemies to reduce their life count.
+# Generate three instances of the enemy in the program and attack the enemies to reduce their life count
 
 # class Enemy
 class Enemy:
