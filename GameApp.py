@@ -7,6 +7,7 @@
 # class Enemy
 class Enemy:
     lives = 3
+    life_status = True
     def attack(self):
         while True:
             play = input('Press return key to attack.')
@@ -16,28 +17,33 @@ class Enemy:
         if r == 1:
             print("Ouch! That's a hit!")
             self.lives -= 1
-            print(f'This enemy has {self.lives} lives left')
-            return 0
+            if self.lives == 1:
+                print(f'This enemy has {self.lives} life left')
+            else:
+                print(f'This enemy has {self.lives} lives left')
         else:
             print("Haha!  Missed!  Try again.")
+            return False
     def checkLife(self):
         if self.lives == 0:
             print("This enemy is dead!")
             return False
 
 class Player:
-    player_lives = 9
+    lives = 9
     def __init__(self, name):
         self.name = name
     def hi_player(self):
         print(f'Hi {self.name}!')
-    def checkPlayerLife(self):
-        self.player_lives -= 1
+    def checkLife(self):
+        self.lives -= 1
         if self.lives == 0:
             print(f"Hard luck {self.name}, you've lost all your lives.  Better luck next time!")
             quit()
+        elif self.lives == 1:
+            print(f'You have {self.lives} life left.')
         else:
-            print(f'You have {self.player_lives} lives left.')
+            print(f'You have {self.lives} lives left.')
 
 # intro
 import random
@@ -45,22 +51,19 @@ print('''In this game you will confront three enemies, each with three lives.
 Your task is to eliminate each enemy to win the game.
 You will begin with 9 lives.  Each time you miss an enemy, you will lose a life.''')
 player = Player(input("OK, so what's your name? "))
-player_lives = player.player_lives
-print(str(player_lives)) # check line
+player_lives = player.lives
 player.hi_player()
 for i in range(3):
     print('Here comes enemy number ' + str(i + 1))
     enemy = Enemy()
     lives = enemy.lives
-    print(str(lives)) # check line
-    play = True
-    while play == True:
-        enemy.attack()
-        if enemy.attack() != 0:
-            player_lives.checkPlayerLife()
+    while True:
+        hit = enemy.attack()
+        if hit == False:
+            player.checkLife()
         else:
-            lives.checkLife()
-            if lives.checkLife() == False:
-                play = False
+            play = enemy.checkLife()
+            if play == False:
+                break
 
 print("Well done, you have defeated three enemies.  Now take a break and relax!")
