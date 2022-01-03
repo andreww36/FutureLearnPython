@@ -18,9 +18,9 @@ class Enemy:
             print("Ouch! That's a hit!")
             self.lives -= 1
             if self.lives == 1:
-                print(f'This enemy has {self.lives} life left')
+                print(f'This enemy has {self.lives} life left.')
             else:
-                print(f'This enemy has {self.lives} lives left')
+                print(f'This enemy has {self.lives} lives left.')
         else:
             print("Haha!  Missed!  Try again.")
             return False
@@ -29,6 +29,7 @@ class Enemy:
             print("This enemy is dead!")
             return False
 
+# class Player
 class Player:
     lives = 9
     def __init__(self, name):
@@ -45,7 +46,7 @@ class Player:
         else:
             print(f'You have {self.lives} lives left.')
 
-# intro
+# introduction to game
 import random
 print('''In this game you will confront three enemies, each with three lives.
 Your task is to eliminate each enemy to win the game.
@@ -53,6 +54,8 @@ You will begin with 9 lives.  Each time you miss an enemy, you will lose a life.
 player = Player(input("OK, so what's your name? "))
 player_lives = player.lives
 player.hi_player()
+
+# playing 3 enemies in turn and checking lives
 for i in range(3):
     print('Here comes enemy number ' + str(i + 1))
     enemy = Enemy()
@@ -66,4 +69,5 @@ for i in range(3):
             if play == False:
                 break
 
+# congratulations for completing game successfully
 print("Well done, you have defeated three enemies.  Now take a break and relax!")
