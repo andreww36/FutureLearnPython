@@ -1,3 +1,4 @@
+# FINAL VERSION
 # Implement these features:
 # A class, Enemy, that starts with three lives.
 # A method to attack the enemy and reduce its life count by one.
@@ -7,7 +8,6 @@
 # class Enemy
 class Enemy:
     lives = 3
-    life_status = True
     def attack(self):
         while True:
             play = input('Press return key to attack.')
