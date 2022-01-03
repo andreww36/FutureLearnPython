@@ -10,7 +10,7 @@ class Enemy:
     lives = 3
     def attack(self):
         while True:
-            play = input('Press return key to attack.')
+            play = input('Press return key to attack. ')
             if play == '':
                 break
         r = random.randint(0,1)
