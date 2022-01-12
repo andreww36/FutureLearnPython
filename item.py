@@ -8,7 +8,7 @@ class Item():
         self.name = name
 
     def get_name(self):
-        print(self.name)
+        return self.name
 
     def set_description(self, description):
         self.description = description
