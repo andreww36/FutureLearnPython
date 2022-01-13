@@ -8,8 +8,8 @@ class Character():
 
     # Describe this character
     def describe(self):
-        print( self.name + " is here!" )
-        print( self.description )
+        print(self.name + " is here!" )
+        print(self.description)
 
     # Set what this character will say when talked to
     def set_conversation(self, conversation):
@@ -26,6 +26,12 @@ class Character():
     def fight(self, combat_item):
         print(self.name + " doesn't want to fight with you")
         return True
+
+    def check_friend(self):
+        return False
+
+    def get_name(self):
+        return self.name
 
 class Enemy(Character):
     def __init__(self, char_name, char_description):
@@ -45,3 +51,28 @@ class Enemy(Character):
         else:
             print(self.name + " crushes you, puny adventurer")
             return False
+
+class Friend(Character):
+    lucky_charm = 3
+
+    def __init__(self, char_name, char_description):
+        super().__init__(char_name, char_description)
+        self.weakness = None
+
+    def check_friend(self):
+        return True
+
+    def get_charm(self):
+        return lucky_charm
+
+    def offer_charm(self):
+        if self.lucky_charm == 0:
+            print("Sorry, I've no more charms left :-(")
+        else:
+            self.lucky_charm -= 1
+            if self.lucky_charm == 1:
+                print(f"{self.name} has {self.lucky_charm} lucky charm left.")
+            else:
+                print(f"{self.name} has {self.lucky_charm} lucky charms left.")
+            print("You can use your charm to fend off an enemy.")
+            return 1
