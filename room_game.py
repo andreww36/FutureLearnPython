@@ -1,5 +1,5 @@
 from room import Room
-from character import Enemy
+from character import Enemy, Friend
 from item import Item
 
 # create rooms
@@ -31,6 +31,8 @@ kitchen.link_room(cellar, "east")
 cellar.link_room(kitchen, "west")
 cellar.link_room(pantry, "south")
 pantry.link_room(cellar, "north")
+pantry.link_room(dining_hall, "west")
+dining_hall.link_room(pantry, "east")
 ballroom.link_room(drawing_room, "south")
 drawing_room.link_room(ballroom, "north")
 dining_hall.link_room(hall, "south")
@@ -40,13 +42,27 @@ bedroom.link_room(hall, "west")
 drawing_room.link_room(hall, "east")
 hall.link_room(drawing_room, "west")
 
-# creating enemy
+# create enemies
 dave = Enemy("Dave", "A smelly zombie")
 dave.set_conversation("I'm dying for a hot bath!")
-dave.set_weakness("cheese")
+dave.set_weakness("soap")
+gert = Enemy("Gert", "A scary ghost")
+gert.set_conversation("I'm going to scare you to death!")
+gert.set_weakness("water")
 dining_hall.set_character(dave)
+bedroom.set_character(gert)
+
+# create friends
+catrina = Friend("Catrina", "A friendly skeleton with a big floppy hat.")
+catrina.set_conversation("I'm here to help you.")
+belinda = Friend("Belinda", "A friendly witch with a black cat.")
+belinda.set_conversation("Cast a spell and all will be well!")
+cellar.set_character(catrina)
+drawing_room.set_character(belinda)
 
 current_room = kitchen
+items = {}
+charms = 0
 while True:
     print("\n")
     current_room.get_details()
@@ -55,21 +71,38 @@ while True:
         print("This is room is empty.")
     else:
         inhabitant.describe()
-        response = input("What would you like to do?  Leave the room, choose an item, talk or fight? ")
-        if response == "talk":
+    if isinstance(inhabitant, Friend):
+        response = input(f"Would you like one of {inhabitant.get_name()}'s lucky charms? ")
+        if response == "yes":
+            charms = charms + inhabitant.offer_charm()
+            print(f"Your charm count is now {charms}")
+    response = input("What would you like to do: leave, choose an item, talk or fight? ")
+    if response == "talk":
+        try:
             print(f"OK, {inhabitant.name} says {inhabitant.conversation}")
-        elif response == "choose an item":
-            item_name = input("What item can you see? > ")
-            item = Item(item_name)
-            colour = input(f"What colour is the {item.get_name()}? > ")
-            item.set_colour(colour)
-            print(f"You now have a {colour} {item.get_name()} to help you on your journey.")
-        elif response == "fight":
-            print("OK, what do you want to fight with? ")
+        except AttributeError:
+            print("Too bad, there's no-one around to talk :-(")
+    elif response == "choose an item":
+        item_name = input("What item can you see? > ")
+        item = Item(item_name)
+        colour = input(f"What colour is the {item.get_name()}? > ")
+        item.set_colour(colour)
+        print(f"You now have a {colour} {item.get_name()} to help you on your journey.")
+        items[item.get_name()] = colour
+    elif response == "fight":
+        try:
+            print("OK, what do you want to fight with? (Hint, the baddies never take a bath!)")
             fight_with = input()
             result = inhabitant.fight(fight_with)
             if result == False:
-                break
+                if charms > 0:
+                    charms -= 1
+                    print(f"You're lucky, one of your charms has save you this time.  Your charm count is now {charms}")
+                else:
+                    print("You've run out of charms and you're out of luck too!")
+                    break
+        except AttributeError:
+            print("It's your lucky day - no-one's around to fight!")
     command = input("Which way do you want to go? > ")
     if command in ["north", "south", "east", "west"]:
         current_room = current_room.move(command)
