@@ -97,7 +97,7 @@ while True:
             if result == False:
                 if charms > 0:
                     charms -= 1
-                    print(f"You're lucky, one of your charms has save you this time.  Your charm count is now {charms}")
+                    print(f"You're lucky, one of your charms has saved you this time.  Your charm count is now {charms}")
                 else:
                     print("You've run out of charms and you're out of luck too!")
                     break
