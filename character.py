@@ -59,12 +59,6 @@ class Friend(Character):
         super().__init__(char_name, char_description)
         self.weakness = None
 
-    def check_friend(self):
-        return True
-
-    def get_charm(self):
-        return lucky_charm
-
     def offer_charm(self):
         if self.lucky_charm == 0:
             print("Sorry, I've no more charms left :-(")
