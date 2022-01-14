@@ -123,10 +123,10 @@ while True:
         else:
             item_name = input("What item can you see? > ")
             item = Item(item_name)
-            colour = input(f"What colour is the {item.get_name()}? > ")
-            item.set_colour(colour)
-            print(f"Well done!  You now have a {colour} {item.get_name()} to help you on your journey.")
-            souvenirs[item.get_name()] = colour
+            item_description = input(f"What's the {item.get_name()} like? > ")
+            item.set_description(item_description)
+            print(f"Well done!  You now have a {item.get_description()} {item.get_name()} to help you on your journey.")
+            souvenirs[item.get_name()] = item_description
             souvenir_count = (len(souvenirs.keys()))
             current_room.status = False
             if souvenir_count == 8 and fight >= 2:
