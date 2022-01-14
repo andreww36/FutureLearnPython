@@ -10,8 +10,8 @@ def end_game():
     if success == True:
         print("Congratulations!  You've survived two fights and successfully collected eight souvenirs:")
     else:
-        print("""You've run out of charms and you're out of luck too!
-        You've lost the game, but you do have these souvenirs of your journey:""")
+        print("""You've no charms and you're out of luck too!
+You've lost the game, but you do have these souvenirs of your journey:""")
     print_dictionary(souvenirs)
     print("Thanks for playing the Haunted Manor Maze game.  Goodbye!")
     quit()
