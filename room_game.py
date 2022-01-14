@@ -65,6 +65,7 @@ gert.set_conversation("I'm going to scare you to bits, but don't open those curt
 gert.set_weakness("light")
 franky = Enemy("Franky", "A vicious vampire")
 franky.set_conversation("My fangs can bite though anything except the one thing I hate!")
+frank.set_weakness("garlic")
 
 # create friends
 catrina = Friend("Catrina", "A friendly skeleton with a big floppy hat.")
