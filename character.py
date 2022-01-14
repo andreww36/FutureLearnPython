@@ -49,7 +49,7 @@ class Enemy(Character):
             print("You fend " + self.name + " off with the " + combat_item )
             return True
         else:
-            print(f"Bad luck, {self.name} has defeated you!")
+            print(self.name + " crushes you, puny adventurer")
             return False
 
 class Friend(Character):
@@ -68,4 +68,5 @@ class Friend(Character):
                 print(f"{self.name} has {self.lucky_charm} lucky charm left.")
             else:
                 print(f"{self.name} has {self.lucky_charm} lucky charms left.")
+            print("You can use your charm to fend off an enemy.")
             return 1
