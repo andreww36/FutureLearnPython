@@ -49,7 +49,7 @@ class Enemy(Character):
             print("You fend " + self.name + " off with the " + combat_item )
             return True
         else:
-            print(self.name + " crushes you, puny adventurer")
+            print(f"Bad luck, {self.name} has defeated you!")
             return False
 
 class Friend(Character):
