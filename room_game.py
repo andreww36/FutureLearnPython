@@ -112,5 +112,5 @@ while True:
 
 print("You've lost the game, but you do have these souvenirs of your journey:")
 for k, v in items.items():
-	    print(v, k)
+    print(v, k)
 print("Goodbye!")
