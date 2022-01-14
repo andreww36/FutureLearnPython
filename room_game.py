@@ -44,7 +44,7 @@ hall.link_room(drawing_room, "west")
 
 # create enemies
 dave = Enemy("Dave", "A smelly zombie")
-dave.set_conversation("I'm dying for a hot bath!")
+dave.set_conversation("I hate hot baths!")
 dave.set_weakness("soap")
 gert = Enemy("Gert", "A scary ghost")
 gert.set_conversation("I'm going to scare you to death!")
@@ -89,6 +89,7 @@ while True:
         item.set_colour(colour)
         print(f"You now have a {colour} {item.get_name()} to help you on your journey.")
         items[item.get_name()] = colour
+        print(items)
     elif response == "fight":
         try:
             print("OK, what do you want to fight with? (Hint, the baddies never take a bath!)")
@@ -109,4 +110,7 @@ while True:
     elif command == "talk":
         print("Hello")
 
-print("You've lost the game.  Goodbye!")
+print("You've lost the game, but you do have these souvenirs of your journey:")
+for k, v in items.items():
+	    print(v, k)
+print("Goodbye!")
