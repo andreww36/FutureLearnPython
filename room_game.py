@@ -8,7 +8,7 @@ def print_dictionary(d):
 
 def end_game():
     if success == True:
-        print("Congratulations!  You've survived two fights and successfully collected eight souvenirs:")
+        print(f"Congratulations!  You've survived two fights and successfully collected {Room.number_of_rooms} souvenirs:")
     else:
         print("""You've no charms and you're out of luck too!
 You've lost the game, but you do have these souvenirs of your journey:""")
@@ -86,17 +86,17 @@ charms = 0
 fight = 0
 
 # start the game
-print("""
+print(f"""
 ______________________________HAUNTED MANOR MAZE__________________________________
 
-Welcome to the Haunted Manor Maze game.  The Haunted Manor consists of eight rooms.
+Welcome to the Haunted Manor Maze game.  The Haunted Manor consists of {Room.number_of_rooms} rooms.
 In the game, you must visit all the room and collect a souvenir from each.
 However, some ghosts and ghouls are lying in wait to ambush you.  To win the game,
 you need to pick two fights with them.  Lose a fight and you could lose the game!
 But don't worry, there are some friendly spooks who have special lucky charms to help
 you.  Collect enough charms and you will be protected from the ghouls!
 
-Can you emerge from the maze unscathed with eight souvenirs?  Good Luck! Here's the
+Can you emerge from the maze unscathed with {Room.number_of_rooms} souvenirs?  Good Luck! Here's the
 first room...""")
 
 while True:
@@ -130,7 +130,7 @@ while True:
             souvenirs[item.get_name()] = item_description
             souvenir_count = (len(souvenirs.keys()))
             current_room.status = False
-            if souvenir_count == 8 and fight >= 2:
+            if souvenir_count == Room.number_of_rooms and fight >= 2:
                 end_game()
             else:
                 print(f"You've {souvenir_count} souvenirs and your fight count is {fight}.  Keep trying!")
@@ -146,7 +146,7 @@ while True:
                 if charms > 0:
                     charms -= 1
                     print(f"You're lucky, one of your charms has saved you this time.  Your charm count is now {charms}")
-                    if souvenir_count == 8 and fight >= 2:
+                    if souvenir_count == Room.number_of_rooms and fight >= 2:
                         success = True
                         end_game()
                 else:

@@ -1,10 +1,13 @@
 class Room():
+    number_of_rooms = 0
+
     def __init__(self, room_name):
         self.name = room_name
         self.description = None
         self.linked_rooms = {}
         self.character = None
         self.status = True
+        Room.number_of_rooms = Room.number_of_rooms + 1
 
     def set_description(self, room_description):
         self.description = room_description
