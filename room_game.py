@@ -78,10 +78,17 @@ def print_dictionary(d):
 def end_game():
     if success == True:
         print(f"Congratulations!  You've survived two fights and successfully collected {Room.number_of_rooms} souvenirs:")
+        print_dictionary(souvenirs)
     else:
-        print("""You've no charms and you're out of luck too!
-You've lost the game, but you do have these souvenirs of your journey:""")
-    print_dictionary(souvenirs)
+        print("You've no charms and you're out of luck too!")
+        if souvenir_count > 1:
+            print("You've lost the game, but you do have these souvenirs of your journey:")
+            print_dictionary(souvenirs)
+        elif souvenir_count == 1:
+            print("You've lost the game, but you do have this souvenir of your journey:")
+            print_dictionary(souvenirs)
+        else:
+            print("You've lost the game and have no souvenirs.")
     print(f"Thanks for playing {haunted_manor_maze.title}.  Goodbye!\n")
     RPGInfo.credits()
     quit()
@@ -97,12 +104,12 @@ fight = 0
 haunted_manor_maze.welcome()
 RPGInfo.info()
 print(f"\n{haunted_manor_maze.title.upper()}")
-print(f"""{haunted_manor_maze.title} consists of {Room.number_of_rooms} rooms.
-In the game, you must visit all the room and collect a souvenir from each.
-However, some ghosts and ghouls are lying in wait to ambush you.  To win the game,
-you need to pick two fights with them.  Lose a fight and you could lose the game!
-But don't worry, there are some friendly spooks who have special lucky charms to help
-you.  Collect enough charms and you will be protected from the ghouls!
+print(f"""{haunted_manor_maze.title} consists of {Room.number_of_rooms} rooms.  In the game, you must visit all the rooms
+and collect a souvenir from each.  However, some ghosts and ghouls are lying in wait
+to ambush you.  To win the game, you need to pick two fights with them.  Lose a fight
+and you could lose the game!  But don't worry, there are some friendly spooks who have
+special lucky charms to help you.  Collect enough charms and you will be protected from
+the ghouls.  And if you stop and talk, you may pick up some helpful hints!
 
 Can you emerge from the maze unscathed with {Room.number_of_rooms} souvenirs?  Good Luck! Here's the
 first room...""")
