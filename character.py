@@ -68,5 +68,4 @@ class Friend(Character):
                 print(f"{self.name} has {self.lucky_charm} lucky charm left.")
             else:
                 print(f"{self.name} has {self.lucky_charm} lucky charms left.")
-            print("You can use your charm to fend off an enemy.")
             return 1
