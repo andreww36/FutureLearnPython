@@ -1,20 +1,10 @@
 from room import Room
 from character import Enemy, Friend
 from item import Item
+from rpginfo import RPGInfo
 
-def print_dictionary(d):
-    for k, v in d.items():
-        print(v, k)
-
-def end_game():
-    if success == True:
-        print(f"Congratulations!  You've survived two fights and successfully collected {Room.number_of_rooms} souvenirs:")
-    else:
-        print("""You've no charms and you're out of luck too!
-You've lost the game, but you do have these souvenirs of your journey:""")
-    print_dictionary(souvenirs)
-    print("Thanks for playing the Haunted Manor Maze game.  Goodbye!")
-    quit()
+# create welcome message
+haunted_manor_maze = RPGInfo("The Haunted Manor Maze")
 
 # create rooms
 kitchen = Room("Kitchen")
@@ -80,16 +70,34 @@ bedroom.set_character(franky)
 cellar.set_character(catrina)
 drawing_room.set_character(belinda)
 
+# functions
+def print_dictionary(d):
+    for k, v in d.items():
+        print(v, k)
+
+def end_game():
+    if success == True:
+        print(f"Congratulations!  You've survived two fights and successfully collected {Room.number_of_rooms} souvenirs:")
+    else:
+        print("""You've no charms and you're out of luck too!
+You've lost the game, but you do have these souvenirs of your journey:""")
+    print_dictionary(souvenirs)
+    print(f"Thanks for playing {haunted_manor_maze.title}.  Goodbye!\n")
+    RPGInfo.credits()
+    quit()
+
+# values
+RPGInfo.author = "Andrew Watson"
 current_room = kitchen
 souvenirs = {}
 charms = 0
 fight = 0
 
 # start the game
-print(f"""
-______________________________HAUNTED MANOR MAZE__________________________________
-
-Welcome to the Haunted Manor Maze game.  The Haunted Manor consists of {Room.number_of_rooms} rooms.
+haunted_manor_maze.welcome()
+RPGInfo.info()
+print(f"\n{haunted_manor_maze.title.upper()}")
+print(f"""{haunted_manor_maze.title} consists of {Room.number_of_rooms} rooms.
 In the game, you must visit all the room and collect a souvenir from each.
 However, some ghosts and ghouls are lying in wait to ambush you.  To win the game,
 you need to pick two fights with them.  Lose a fight and you could lose the game!
