@@ -1,17 +1,20 @@
 class Item():
     def __init__(self, name):
-        self.name = name
-        self.description = None
-        self.colour = None
+        self._name = name
+        self._description = None
 
-    def set_name(self, name):
-        self.name = name
+    @property
+    def name(self):
+        return self._name
 
-    def get_name(self):
-        return self.name
+    @name.setter
+    def name(self, name):
+        self._name = name
 
-    def set_description(self, description):
-        self.description = description
+    @property
+    def description(self):
+        return self._description
 
-    def get_description(self):
-        return self.description
+    @description.setter
+    def description(self, description):
+        self._description = description
