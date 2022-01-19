@@ -137,12 +137,11 @@ while True:
         if current_room.status == False:
             print("Sorry, you've already collected a souvenir here.  Try another room!")
         else:
-            item_name = input("What item can you see? > ")
-            item = Item(item_name)
-            item_description = input(f"What's the {item.get_name()} like? > ")
-            item.set_description(item_description)
-            print(f"Well done!  You now have a {item.get_description()} {item.get_name()} to help you on your journey.")
-            souvenirs[item.get_name()] = item_description
+            item = Item
+            item.name = input("What item can you see? > ")
+            item.description = input(f"What's the {item.name} like? > ")
+            print(f"Well done!  You now have a {item.description} {item.name} to help you on your journey.")
+            souvenirs[item.name] = item.description
             souvenir_count = (len(souvenirs.keys()))
             current_room.status = False
             if souvenir_count == Room.number_of_rooms and fight >= 2:
