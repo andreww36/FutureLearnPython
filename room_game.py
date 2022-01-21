@@ -137,7 +137,7 @@ while True:
         if current_room.status == False:
             print("Sorry, you've already collected a souvenir here.  Try another room!")
         else:
-            item = Item
+            item = Item()
             item.name = input("What item can you see? > ")
             item.description = input(f"What's the {item.name} like? > ")
             print(f"Well done!  You now have a {item.description} {item.name} to help you on your journey.")
