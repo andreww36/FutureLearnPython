@@ -24,7 +24,7 @@ class Character():
 
     # Fight with this character
     def fight(self, combat_item):
-        print(self.name + " doesn't want to fight with you")
+        print(self.name + " doesn't want to fight with you.")
         return True
 
     def check_friend(self):

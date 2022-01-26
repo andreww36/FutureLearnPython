@@ -25,7 +25,7 @@ dining_hall.set_description("A cold room with a large table and 18 chairs covere
 cellar.set_description("A spooky, cavernous room crawling with spiders.")
 drawing_room.set_description("A cosy room with two sofas and a blazing fire.")
 pantry.set_description("A musty room containing bottles of silver polish and knife sharpeners.")
-hall.set_description("A galleried reception room with a grand central staircase.")
+hall.set_description("A galleried room with a grand central staircase.")
 bedroom.set_description("A large room with a four-poster bed and window overlooking the park.")
 
 # linking rooms together
@@ -75,7 +75,7 @@ drawing_room.set_character(belinda)
 # create souvenirs
 s1, s2, s3, s4, s5, s6, s7, s8 = (Item(), )*8
 souvenir_items = [s1, s2, s3, s4, s5, s6, s7, s8]
-souvenir_names = ['garlic', 'candle', 'soap', 'ruby', 'sword', 'knife', 'helmet', 'coat']
+souvenir_names = ['garlic', 'candle', 'soap', 'ruby', 'sword', 'rope', 'helmet', 'cloak']
 souvenirs = []
 
 for s in souvenir_items:
@@ -90,31 +90,30 @@ for r in rooms:
     y += 1
 
 # functions
-def print_dictionary(d):
-    for k, v in d.items():
-        print(v, k)
-
 def end_game():
     if success == True:
         print(f"Congratulations!  You've survived two fights and successfully collected {Room.number_of_rooms} souvenirs:")
-        print_dictionary(backpack)
+        print_backpack()
     else:
         print("You've no charms and you're out of luck too!")
         if backpack_count > 1:
             print("You've lost the game, but you do have these souvenirs of your journey:")
-            for i in backpack:
-                print(i)
+            print_backpack()
         elif backpack_count == 1:
             print("You've lost the game, but you do have this souvenir of your journey:")
-            for i in backpack:
-                print(i)
+            print_backpack()
         else:
             print("You've lost the game and have no souvenirs.")
     print(f"Thanks for playing {haunted_manor_maze.title}.  Goodbye!\n")
     RPGInfo.credits()
     quit()
 
-# values
+def print_backpack():
+    # prints contents of backpack
+    for i in backpack:
+        print(i)
+
+# values at start of game
 RPGInfo.author = "Andrew Watson"
 current_room = kitchen
 backpack = []
@@ -143,12 +142,8 @@ while True:
     current_room.get_details()
     inhabitant = current_room.get_character()
     object = current_room.get_souvenir()
-    if current_room.status == True:
-        print(f"There is a {object} in this room.")
-    else:
-        print("There are no souvenirs in this room.")
     if inhabitant is None:
-        print("This is no-one in this room.")
+        print("There is no-one in this room.")
     else:
         inhabitant.describe()
     if isinstance(inhabitant, Friend):
@@ -156,7 +151,10 @@ while True:
         if response == "yes":
             charms = charms + inhabitant.offer_charm()
             print(f"Your charm count is now {charms}.\nYou can use your charm to fend off an enemy.")
-
+    if current_room.item_status == True:
+        print(f"You're lucky - there's a souvenir here!  Look for the {object}...")
+    else:
+        print("There are no souvenirs left in this room.")
     response = input("You can leave the room, collect a souvenir for your backpack, talk or fight.  What would you like to do? Type l, c, t or f. >  ")
     if response == "t":
         try:
@@ -164,25 +162,28 @@ while True:
         except AttributeError:
             print("Too bad, there's no-one around to talk :-(")
     elif response == "c":
-        if current_room.status == False:
+        if current_room.item_status == False:
             print("Sorry, you've already collected a souvenir here.  Try another room!")
         else:
-            print(f"Well done!  You now have a {object} to help you on your journey.")
+            print(f"Well done!  You've now got the {object} to help you on your journey.")
             backpack.append(object)
             backpack_count = (len(backpack))
-            current_room.status = False
+            current_room.item_status = False
             if backpack_count == Room.number_of_rooms and fight >= 2:
+                success = True
                 end_game()
             else:
-                print(f"You've {backpack_count} souvenirs and your fight count is {fight}.  Keep trying!")
+                if backpack_count == 1:
+                    print(f"You've {backpack_count} souvenir, your fight count is {fight} and your charm count {charms}.  Keep trying!")
+                else:
+                    print(f"You've {backpack_count} souvenirs, your fight count is {fight} and your charm count {charms}.  Keep trying!")
     elif response == "f":
         try:
-            status = isinstance(inhabitant, Enemy)
-            if status == True:
+            enemy_status = isinstance(inhabitant, Enemy)
+            if enemy_status == True:
                 fight +=1
             print("OK, what do you want to fight with? Choose something from your backpack:")
-            for i in backpack:
-                print(i)
+            print_backpack()
             while True:
                 fight_with = input()
                 if fight_with in backpack:
@@ -192,17 +193,21 @@ while True:
                     fight_with = None
                     break
                 else:
-                    print("Sorry, that's not in your backpack.  Try again!  >")
+                    print("Sorry, that's not in your backpack.  Try again!  > ")
             result = inhabitant.fight(fight_with)
             if result == False:
                 if charms > 0:
                     charms -= 1
-                    print(f"You're lucky, one of your charms has saved you this time.  Your charm count is now {charms}")
+                    print(f"You're lucky, one of your charms has saved you.  Your charm count is now {charms}")
                     if backpack_count == Room.number_of_rooms and fight >= 2:
                         success = True
                         end_game()
                 else:
                     success = False
+                    end_game()
+            else:
+                if backpack_count == Room.number_of_rooms and fight >= 2:
+                    success = True
                     end_game()
         except AttributeError:
             print("It's your lucky day - no-one's around to fight!")

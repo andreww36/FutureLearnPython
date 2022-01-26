@@ -16,7 +16,7 @@ class Item():
                 self._name = value
                 break
             else:
-                value = input("Please enter text to name this item! > ")
+                value = input("ValueError: Item cannot be an integer.  Please enter a string.> ")
 
     @property
     def description(self):
