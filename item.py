@@ -16,7 +16,7 @@ class Item():
                 self._name = value
                 break
             else:
-                value = input("Please enter text! > ")
+                value = input("Please enter text to name this item! > ")
 
     @property
     def description(self):

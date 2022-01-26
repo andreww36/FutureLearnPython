@@ -6,6 +6,7 @@ class Room():
         self.description = None
         self.linked_rooms = {}
         self.character = None
+        self.souvenir = None
         self.status = True
         Room.number_of_rooms = Room.number_of_rooms + 1
 
@@ -55,3 +56,9 @@ class Room():
 
     def get_character(self):
         return self.character
+
+    def set_souvenir(self, new_souvenir):
+        self.souvenir = new_souvenir
+
+    def get_souvenir(self):
+        return self.souvenir

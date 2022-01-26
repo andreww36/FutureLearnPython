@@ -2,6 +2,7 @@ from room import Room
 from character import Enemy, Friend
 from item import Item
 from rpginfo import RPGInfo
+import random
 
 # create welcome message
 haunted_manor_maze = RPGInfo("The Haunted Manor Maze")
@@ -15,8 +16,9 @@ drawing_room = Room("Drawing room")
 pantry = Room("Pantry")
 hall = Room("Hall")
 bedroom = Room("Bedroom")
+rooms = [kitchen, ballroom, dining_hall, cellar, drawing_room, pantry, hall, bedroom]
 
-# set descriptions
+# set room descriptions
 kitchen.set_description("A dank and dirty room buzzing with flies.")
 ballroom.set_description("A grand room with chandeliers and a grandfather clock in the corner.")
 dining_hall.set_description("A cold room with a large table and 18 chairs covered with cobwebs.")
@@ -52,7 +54,7 @@ dave.set_conversation("I hate hot baths!")
 dave.set_weakness("soap")
 gert = Enemy("Gert", "A scary ghost")
 gert.set_conversation("I'm going to scare you to bits, but don't open those curtains!")
-gert.set_weakness("light")
+gert.set_weakness("candle")
 franky = Enemy("Franky", "A vicious vampire")
 franky.set_conversation("My fangs can bite though anything except the one thing I hate!")
 franky.set_weakness("garlic")
@@ -70,6 +72,23 @@ bedroom.set_character(franky)
 cellar.set_character(catrina)
 drawing_room.set_character(belinda)
 
+# create souvenirs
+s1, s2, s3, s4, s5, s6, s7, s8 = (Item(), )*8
+souvenir_items = [s1, s2, s3, s4, s5, s6, s7, s8]
+souvenir_names = ['garlic', 'candle', 'soap', 'ruby', 'sword', 'knife', 'helmet', 'coat']
+souvenirs = []
+
+for s in souvenir_items:
+    x = random.randint(0, (len(souvenir_names)-1))
+    s.name = souvenir_names.pop(x)
+    souvenirs.append(s.name)
+
+# position souvenirs in rooms
+y = 0
+for r in rooms:
+    r.set_souvenir(souvenirs[y])
+    y += 1
+
 # functions
 def print_dictionary(d):
     for k, v in d.items():
@@ -78,15 +97,17 @@ def print_dictionary(d):
 def end_game():
     if success == True:
         print(f"Congratulations!  You've survived two fights and successfully collected {Room.number_of_rooms} souvenirs:")
-        print_dictionary(souvenirs)
+        print_dictionary(backpack)
     else:
         print("You've no charms and you're out of luck too!")
-        if souvenir_count > 1:
+        if backpack_count > 1:
             print("You've lost the game, but you do have these souvenirs of your journey:")
-            print_dictionary(souvenirs)
-        elif souvenir_count == 1:
+            for i in backpack:
+                print(i)
+        elif backpack_count == 1:
             print("You've lost the game, but you do have this souvenir of your journey:")
-            print_dictionary(souvenirs)
+            for i in backpack:
+                print(i)
         else:
             print("You've lost the game and have no souvenirs.")
     print(f"Thanks for playing {haunted_manor_maze.title}.  Goodbye!\n")
@@ -96,7 +117,8 @@ def end_game():
 # values
 RPGInfo.author = "Andrew Watson"
 current_room = kitchen
-souvenirs = {}
+backpack = []
+backpack_count = 0
 charms = 0
 fight = 0
 
@@ -106,10 +128,12 @@ RPGInfo.info()
 print(f"\n{haunted_manor_maze.title.upper()}")
 print(f"""{haunted_manor_maze.title} consists of {Room.number_of_rooms} rooms.  In the game, you must visit all the rooms
 and collect a souvenir from each.  However, some ghosts and ghouls are lying in wait
-to ambush you.  To win the game, you need to pick two fights with them.  Lose a fight
-and you could lose the game!  But don't worry, there are some friendly spooks who have
-special lucky charms to help you.  Collect enough charms and you will be protected from
-the ghouls.  And if you stop and talk, you may pick up some helpful hints!
+to ambush you.  To win the game, you need to pick two fights with them, choosing one
+of your souvenirs from your backpack to help defend you.  Lose a fight and you could
+lose the game!  But don't worry, there are some friendly spooks who have special lucky
+charms to help you.  Collect enough charms and you will be protected from the ghouls.
+And if you stop and talk, you may pick up some helpful hints about what to fight the
+ghouls with!
 
 Can you emerge from the maze unscathed with {Room.number_of_rooms} souvenirs?  Good Luck! Here's the
 first room...""")
@@ -118,8 +142,13 @@ while True:
     print("\n")
     current_room.get_details()
     inhabitant = current_room.get_character()
+    object = current_room.get_souvenir()
+    if current_room.status == True:
+        print(f"There is a {object} in this room.")
+    else:
+        print("There are no souvenirs in this room.")
     if inhabitant is None:
-        print("This is room is empty.")
+        print("This is no-one in this room.")
     else:
         inhabitant.describe()
     if isinstance(inhabitant, Friend):
@@ -127,7 +156,8 @@ while True:
         if response == "yes":
             charms = charms + inhabitant.offer_charm()
             print(f"Your charm count is now {charms}.\nYou can use your charm to fend off an enemy.")
-    response = input("You can leave the room, choose a souvenir, talk or fight.  What would you like to do? Type l, c, t or f. >  ")
+
+    response = input("You can leave the room, collect a souvenir for your backpack, talk or fight.  What would you like to do? Type l, c, t or f. >  ")
     if response == "t":
         try:
             print(f"OK, {inhabitant.name} says {inhabitant.conversation}")
@@ -137,30 +167,38 @@ while True:
         if current_room.status == False:
             print("Sorry, you've already collected a souvenir here.  Try another room!")
         else:
-            item = Item()
-            item.name = input("What item can you see? > ")
-            item.description = input(f"What's the {item.name} like? > ")
-            print(f"Well done!  You now have a {item.description} {item.name} to help you on your journey.")
-            souvenirs[item.name] = item.description
-            souvenir_count = (len(souvenirs.keys()))
+            print(f"Well done!  You now have a {object} to help you on your journey.")
+            backpack.append(object)
+            backpack_count = (len(backpack))
             current_room.status = False
-            if souvenir_count == Room.number_of_rooms and fight >= 2:
+            if backpack_count == Room.number_of_rooms and fight >= 2:
                 end_game()
             else:
-                print(f"You've {souvenir_count} souvenirs and your fight count is {fight}.  Keep trying!")
+                print(f"You've {backpack_count} souvenirs and your fight count is {fight}.  Keep trying!")
     elif response == "f":
         try:
             status = isinstance(inhabitant, Enemy)
             if status == True:
                 fight +=1
-            print("OK, what do you want to fight with? (Hint, the baddies never take a bath!)")
-            fight_with = input()
+            print("OK, what do you want to fight with? Choose something from your backpack:")
+            for i in backpack:
+                print(i)
+            while True:
+                fight_with = input()
+                if fight_with in backpack:
+                    break
+                elif backpack_count == 0:
+                    print("You've nothing in your backpack yet.  You've nothing to defend yourself with!")
+                    fight_with = None
+                    break
+                else:
+                    print("Sorry, that's not in your backpack.  Try again!  >")
             result = inhabitant.fight(fight_with)
             if result == False:
                 if charms > 0:
                     charms -= 1
                     print(f"You're lucky, one of your charms has saved you this time.  Your charm count is now {charms}")
-                    if souvenir_count == Room.number_of_rooms and fight >= 2:
+                    if backpack_count == Room.number_of_rooms and fight >= 2:
                         success = True
                         end_game()
                 else:
